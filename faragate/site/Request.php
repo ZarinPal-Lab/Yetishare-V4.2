@@ -98,7 +98,7 @@ if ($order)
 			
 			include(SITE_TEMPLATES_PATH.'/upgrade.html');	
 		
-			$Payment_URL =  'https://www.zarinpal.com/pg/StartPay/' . $result->Authority;
+			$Payment_URL =  'https://www.zarinpal.com/pg/StartPay/' . $result->Authority.'/ZarinGate';
 
 			if ( ! headers_sent() ) header('Location: ' . $Payment_URL ); exit;
 			die('<script type="text/javascript">window.location="' .$Payment_URL. '";</script>'); exit;
