@@ -96,12 +96,16 @@ if ($order)
 		
 		if ( $result->Status == 100){
 			
-			include(SITE_TEMPLATES_PATH.'/upgrade.html');	
-		
-			$Payment_URL =  'https://www.zarinpal.com/pg/StartPay/' . $result->Authority.'/ZarinGate';
+		include(SITE_TEMPLATES_PATH.'/upgrade.html');	
 
-			if ( ! headers_sent() ) header('Location: ' . $Payment_URL ); exit;
-			die('<script type="text/javascript">window.location="' .$Payment_URL. '";</script>'); exit;
+			echo '<script type="text/javascript" src="https://cdn.zarinpal.com/zarinak/v1/checkout.js"></script>
+				<script>
+				Zarinak.setAuthority( ' . $result->Authority . ');
+				Zarinak.open();
+				</script>';
+				
+			/*if ( ! headers_sent() ) header('Location: ' . $Payment_URL ); exit;
+			die('<script type="text/javascript">window.location="' .$Payment_URL. '";</script>'); exit;*/
 			
 		}
 		else {
