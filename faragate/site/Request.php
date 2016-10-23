@@ -94,9 +94,10 @@ if ($order)
 												)
 										);
 		
-		if ( $result->Status == 100){
+		if ( $result->Status == 100)
+		{
 			
-		include(SITE_TEMPLATES_PATH.'/upgrade.html');	
+			include(SITE_TEMPLATES_PATH.'/upgrade.html');	
 
 			echo '<script type="text/javascript" src="https://cdn.zarinpal.com/zarinak/v1/checkout.js"></script>
 				<script>
@@ -104,9 +105,6 @@ if ($order)
 				Zarinak.open();
 				</script>';
 				
-			/*if ( ! headers_sent() ) header('Location: ' . $Payment_URL ); exit;
-			die('<script type="text/javascript">window.location="' .$Payment_URL. '";</script>'); exit;*/
-			
 		}
 		else {
 			$Fault  = isset($result->Status) ? $Request['Status'] : '';
