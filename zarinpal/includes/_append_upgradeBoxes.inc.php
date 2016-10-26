@@ -1,6 +1,6 @@
 <?php
 // load plugin details
-$pluginConfig = pluginHelper::pluginSpecificConfiguration('faragate');
+$pluginConfig = pluginHelper::pluginSpecificConfiguration('zarinpal');
 // create link to payment gateway
 ?>
 <div style="text-align: center; padding: 3px;">

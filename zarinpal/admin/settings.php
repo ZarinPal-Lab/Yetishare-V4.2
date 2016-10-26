@@ -18,9 +18,9 @@ define('ADMIN_PAGE_TITLE', $plugin['plugin_name'] . ' Plugin Settings');
 
 // prepare variables
 $plugin_enabled = (int) $plugin['plugin_enabled'];
-$faragate_merchant   = 'fgapi-xxxxxx';
-$faragate_sandbox    = 'no';
-$faragate_currency   = 'irt';
+$zarinpal_merchant   = 'zpapi-xxxxxx';
+$zarinpal_sandbox    = 'no';
+$zarinpal_currency   = 'irt';
 
 // load existing settings
 if (strlen($plugin['plugin_settings']))
@@ -28,9 +28,9 @@ if (strlen($plugin['plugin_settings']))
     $plugin_settings = json_decode($plugin['plugin_settings'], true);
     if ($plugin_settings)
     {
-        $faragate_merchant = $plugin_settings['faragate_merchant'];
-        $faragate_sandbox  = $plugin_settings['faragate_sandbox'];
-        $faragate_currency = $plugin_settings['faragate_currency'];	
+        $zarinpal_merchant = $plugin_settings['zarinpal_merchant'];
+        $zarinpal_sandbox  = $plugin_settings['zarinpal_sandbox'];
+        $zarinpal_currency = $plugin_settings['zarinpal_currency'];	
     }
 }
 
@@ -40,31 +40,31 @@ if (isset($_REQUEST['submitted']))
     // get variables
     $plugin_enabled = (int) $_REQUEST['plugin_enabled'];
     $plugin_enabled = $plugin_enabled != 1 ? 0 : 1;
-    $faragate_merchant   = trim(strtolower($_REQUEST['faragate_merchant']));
-    $faragate_sandbox   = trim(strtolower($_REQUEST['faragate_sandbox']));
-	$faragate_currency   = trim(strtolower($_REQUEST['faragate_currency']));
+    $zarinpal_merchant   = trim(strtolower($_REQUEST['zarinpal_merchant']));
+    $zarinpal_sandbox   = trim(strtolower($_REQUEST['zarinpal_sandbox']));
+	$zarinpal_currency   = trim(strtolower($_REQUEST['zarinpal_currency']));
 
     // validate submission
     if (_CONFIG_DEMO_MODE == true)
     {
         adminFunctions::setError(adminFunctions::t("no_changes_in_demo_mode"));
     }
-    elseif (strlen($faragate_merchant) == 0)
+    elseif (strlen($zarinpal_merchant) == 0)
     {
-        adminFunctions::setError(adminFunctions::t("please_enter_your_faragate_merchant", "Please enter your FaraGate account Merchant."));
+        adminFunctions::setError(adminFunctions::t("please_enter_your_zarinpal_merchant", "Please enter your ZarinPal account Merchant."));
     }
-	elseif (strlen($faragate_currency) == 0)
+	elseif (strlen($zarinpal_currency) == 0)
     {
-        adminFunctions::setError(adminFunctions::t("please_enter_your_faragate_currency", "Please enter your FaraGate currency."));
+        adminFunctions::setError(adminFunctions::t("please_enter_your_zarinpal_currency", "Please enter your ZarinPal currency."));
     }
     // update the settings
     if (adminFunctions::isErrors() == false)
     {
         // compile new settings
         $settingsArr                 = array();
-        $settingsArr['faragate_merchant'] = $faragate_merchant;
-        $settingsArr['faragate_sandbox'] = $faragate_sandbox;
-        $settingsArr['faragate_currency'] = $faragate_currency;
+        $settingsArr['zarinpal_merchant'] = $zarinpal_merchant;
+        $settingsArr['zarinpal_sandbox'] = $zarinpal_sandbox;
+        $settingsArr['zarinpal_currency'] = $zarinpal_currency;
         $settings                    = json_encode($settingsArr);
 
         // update the user
@@ -136,19 +136,19 @@ include_once(ADMIN_ROOT . '/_header.inc.php');
                             <div class="form">
                                 <div class="clearfix alt-highlight">
                                     <label>مرچنت زرین پال</label>
-                                    <div class="input"><input id="faragate_merchant" name="faragate_merchant" type="text" class="large validate[required]" value="<?php echo adminFunctions::makeSafe($faragate_merchant); ?>"/></div>
+                                    <div class="input"><input id="zarinpal_merchant" name="zarinpal_merchant" type="text" class="large validate[required]" value="<?php echo adminFunctions::makeSafe($zarinpal_merchant); ?>"/></div>
                                 </div>
                            
                                 <div class="clearfix alt-highlight">
                                     <label>واحد پولی</label>
                                     <div class="input">
-										<select name="faragate_currency" id="faragate_currency" class="medium validate[required]">
+										<select name="zarinpal_currency" id="zarinpal_currency" class="medium validate[required]">
                                             <?php
                                             $currencies = array('irt' => 'تومان', 'irr' => 'ریال');
                                             foreach ($currencies AS $k => $currency)
                                             {
                                                 echo '<option value="' . $k . '"';
-                                                if (adminFunctions::makeSafe($faragate_currency) == $k)
+                                                if (adminFunctions::makeSafe($zarinpal_currency) == $k)
                                                 {
                                                     echo ' SELECTED';
                                                 }

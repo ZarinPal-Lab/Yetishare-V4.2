@@ -4,14 +4,14 @@ header('Content-Type: text/html; charset=utf-8');
 header('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
 header('Pragma: no-cache');
 require_once('../../../core/includes/master.inc.php');
-$pluginConfig   = pluginHelper::pluginSpecificConfiguration('faragate');
+$pluginConfig   = pluginHelper::pluginSpecificConfiguration('zarinpal');
 $pluginSettings = $pluginConfig['data']['plugin_settings'];
-$faragate_merchant    = '';
+$zarinpal_merchant    = '';
 if (strlen($pluginSettings)){
     $pluginSettingsArr = json_decode($pluginSettings, true);
-    $faragate_merchant       = $pluginSettingsArr['faragate_merchant'];
-    $faragate_sandbox        = $pluginSettingsArr['faragate_sandbox'];
-    $faragate_currency       = $pluginSettingsArr['faragate_currency'];
+    $zarinpal_merchant       = $pluginSettingsArr['zarinpal_merchant'];
+    $zarinpal_sandbox        = $pluginSettingsArr['zarinpal_sandbox'];
+    $zarinpal_currency       = $pluginSettingsArr['zarinpal_currency'];
 }
 if (!isset($_REQUEST['days'])){
     coreFunctions::redirect(WEB_ROOT . '/index.html');
@@ -50,7 +50,7 @@ $order     = OrderPeer::create($userId, $orderHash, $days, $amount, $fileId);
 $return_url = urldecode(PLUGIN_WEB_ROOT . '/' . $pluginConfig['data']['folder_name'] . '/site/Verify.php').'?custom='.urlencode($orderHash);
 if ($order)
 {
-	//start of faragate
+	//start of zarinpal
 	if ( !class_exists( 'nusoap_client' ) ) 
 		include('nusoap.php');
 	
@@ -58,12 +58,12 @@ if ($order)
 	$Description = 'خرید اکانت '.intval($days).' روزه کاربر '.$username; 
 	$Email = isset($userEmail) ? $userEmail : ''; 
 	
-	if ($faragate_currency == 'irr')
+	if ($zarinpal_currency == 'irr')
 		$Amount = ceil($Amount/10);
 
 	$Parameters = array(
-		'SandBox'			  => ($faragate_sandbox == 'yes'),
-		'MerchantCode'  	  => $faragate_merchant,
+		'SandBox'			  => ($zarinpal_sandbox == 'yes'),
+		'MerchantCode'  	  => $zarinpal_merchant,
 		'PriceValue'   		  => $Amount,
 		'ReturnUrl'    		  => $return_url,
 		'InvoiceNumber'		  => $order->id,
@@ -81,11 +81,11 @@ if ($order)
 	
 	try {
 		
-		$client = new SoapClient('https://de.zarinpal.com/pg/services/WebGate/wsdl', array('encoding' => 'UTF-8'));
+		$client = new SoapClient('https://wwww.zarinpal.com/pg/services/WebGate/wsdl', array('encoding' => 'UTF-8'));
 		
 		$result = $client->PaymentRequest(
 											array(
-													'MerchantID' 	=> $faragate_merchant,
+													'MerchantID' 	=> $zarinpal_merchant,
 													'Amount' 		=> $Amount,
 													'Description' 	=> 'Invoice ID: '. $order->id,
 													'Email' 		=> $Email,
@@ -227,5 +227,5 @@ if ($order)
 			
 		die('در حین پرداخت خطای رو به رو رخ داده است : '.$Response);
 	}
-	//end of faragate
+	//end of zarinpal
 }

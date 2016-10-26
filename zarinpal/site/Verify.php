@@ -4,31 +4,30 @@ header('Content-Type: text/html; charset=utf-8');
 header('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
 header('Pragma: no-cache');
 require_once('../../../core/includes/master.inc.php');
-$pluginConfig   = pluginHelper::pluginSpecificConfiguration('faragate');
+$pluginConfig   = pluginHelper::pluginSpecificConfiguration('zarinpal');
 $pluginSettings = $pluginConfig['data']['plugin_settings'];
-$faragate_merchant    = '';
-$faragate_sandbox    = 'no';
-$faragate_currency    = 'irt';
+$zarinpal_merchant    = '';
+$zarinpal_sandbox    = 'no';
+$zarinpal_currency    = 'irt';
 if (strlen($pluginSettings)){
 	$pluginSettingsArr = json_decode($pluginSettings, true);
-	$faragate_merchant       = $pluginSettingsArr['faragate_merchant'];
-	$faragate_sandbox        = $pluginSettingsArr['faragate_sandbox'];
-	$faragate_currency       = $pluginSettingsArr['faragate_currency'];
+	$zarinpal_merchant       = $pluginSettingsArr['zarinpal_merchant'];
+	$zarinpal_sandbox        = $pluginSettingsArr['zarinpal_sandbox'];
+	$zarinpal_currency       = $pluginSettingsArr['zarinpal_currency'];
 }
 $paymentTracker = !empty($_REQUEST['custom']) ? urldecode($_REQUEST['custom']) : $_POST['order_hash'];
 $order          = OrderPeer::loadByPaymentTracker($paymentTracker);
 if ($order)
 {	
-	//start of faragate
+	//start of zarinpal
 	$Amount = intval($order->amount); 
-	if ($faragate_currency == 'irr')
+	if ($zarinpal_currency == 'irr')
 		$Amount    = $Amount/10;
 	
-	if ( !class_exists( 'nusoap_client' ) ) 
-		include('nusoap.php');
+
 	
 		//Just input MerchantCode for verify
-	$MerchantCode = $faragate_merchant;
+	$MerchantCode = $zarinpal_merchant;
 	
 	$InvoiceNumber = isset($_POST['InvoiceNumber']) ? $_POST['InvoiceNumber'] : '';
 	$Transaction_ID = $Token = isset($_POST['Token']) ? $_POST['Token'] : '';
@@ -64,7 +63,7 @@ if ($order)
 	$status = $Status;
 	$transaction_id = $Transaction_ID;
 	$fault = $Fault;
-	//end of faragate
+	//end of zarinpal
 	
 	if ( $status == 'completed' )
 	{
